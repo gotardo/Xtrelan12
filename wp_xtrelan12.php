@@ -4,7 +4,7 @@
       Plugin Name: WP Xtrelan12
       Plugin URI: http://blog.gotardo.es/xtrelan-2012
       Description: Plugin para el taller de desarrollo de plugins de Xtrelan 2012 (27/09/2012)
-      Version: 0.2
+      Version: 0.3
       Author: Gotardo González (@gotardo)
       Author URI: http://blog.gotardo.es
    */
@@ -26,6 +26,11 @@
             //Añadir un texto y un título por defecto a todas las entradas
             add_filter('default_title', array($this,'set_default_title'));
             add_filter('default_content', array($this,'set_default_content'));
+
+            //Añadir ShortCodes
+            add_shortcode('Year', array ($this, 'year_shortcode'));
+            add_shortcode('YourData', array ($this, 'shortcode_sample'));
+
         }
 
 
@@ -37,6 +42,27 @@
         function set_default_content() {
             $content = "Texto por defecto";
             return $content;
+        }
+
+        //Controlar ShortCodes
+        function year_shortcode() {
+            $year = date('Y');
+            return $year;
+        }
+
+
+        function shortcode_sample($params){
+            //Definición de los atributos por defecto
+            $defaults = array(
+                'nombre'    => 'Anónimo',
+                'apellidos' => ''
+            );
+
+            //Extracción de los parámetros
+            extract(shortcode_atts($defaults, $params));
+
+            //cuerpo de la ejecución del shortcode
+            printf("hola, %s %s", $nombre, $apellidos);
         }
 
         //Añadir menú
