@@ -18,8 +18,25 @@
         function __construct() {
 
             //Registrar acciones
+            //Algunos ejemplos de acciones en el admin y en el loop de WordPress
             add_action('admin_menu', array($this,'config_menu_page'));
-            add_action('the_post',  array($this,'say_hello'));
+            add_action('the_loop',  array($this,'say_hello'));
+
+            //Registrar filtros
+            //Añadir un texto y un título por defecto a todas las entradas
+            add_filter('default_title', array($this,'set_default_title'));
+            add_filter('default_content', array($this,'set_default_content'));
+        }
+
+
+        function set_default_title() {
+            $title = "Titulo por defecto";
+            return $title;
+        }
+
+        function set_default_content() {
+            $content = "Texto por defecto";
+            return $content;
         }
 
         //Añadir menú
