@@ -19,6 +19,7 @@
 
             //Registrar acciones
             add_action('admin_menu', array($this,'config_menu_page'));
+            add_action('the_post',  array($this,'say_hello'));
         }
 
         //Añadir menú
@@ -50,6 +51,10 @@
                         </ul>
                     </div>
                     ";
+        }
+
+        function say_hello () {
+            printf("<div>Hello, man</div>");
         }
 
     }
