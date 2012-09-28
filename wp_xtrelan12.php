@@ -27,6 +27,8 @@
             add_filter('default_title', array($this,'set_default_title'));
             add_filter('default_content', array($this,'set_default_content'));
 
+            add_filter('the_content', array($this,'filter_content'));
+
             //Añadir ShortCodes
             add_shortcode('Year', array ($this, 'year_shortcode'));
             add_shortcode('YourData', array ($this, 'shortcode_sample'));
@@ -34,6 +36,7 @@
         }
 
 
+        //Algunas funciones
         function set_default_title() {
             $title = "Titulo por defecto";
             return $title;
@@ -43,6 +46,12 @@
             $content = "Texto por defecto";
             return $content;
         }
+
+        function filter_content($content) {
+            return eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_+.~#?&//=]+)',
+                '<a href="\1">\1</a>', $content);
+        }
+
 
         //Controlar ShortCodes
         function year_shortcode() {
