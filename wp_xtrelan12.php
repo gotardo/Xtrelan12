@@ -23,6 +23,7 @@
             $this->table_name = $wpdb->prefix . "xtr_quotes";
 
 
+
             //Registrar acciones
             register_activation_hook(__FILE__, array($this, "install"));
             register_deactivation_hook(__FILE__, array($this, "uninstall"));
@@ -141,10 +142,30 @@
 
     }
 
+    class XtrelanWidget extends WP_Widget {
+
+            public function __construct() {
+                parent::__construct(
+	 		'XtrelanWidget', // Base ID
+			'XtrelanWidget', // Name
+			array( 'description' => __( 'XtrelanWidget es sólo un widget de ejemplo', 'text_domain' ), ) // Args
+		);
+            }
+
+
+            public function widget($instance) {
+                    echo "Un widget para Xtrelan";
+            }
+
+    }
+
 
 
     //Llamamos a la función principal del plugin
     $xtr = new xtrelan12();
 
+   add_action( 'widgets_init', function () {
+    register_widget( "XtrelanWidget" ); }
+   );
 
 ?>
