@@ -14,10 +14,21 @@
 
     class xtrelan12 {
 
+        private $table_name;
+
         //Constructor
         function __construct() {
+            global $wpdb;
+            //Iniciar variables
+            $this->table_name = $wpdb->prefix . "xtr_quotes";
+
 
             //Registrar acciones
+            register_activation_hook(__FILE__, array($this, "install"));
+            register_deactivation_hook(__FILE__, array($this, "uninstall"));
+
+            //Acciones para instalación y desinstalación del plugin
+
             //Algunos ejemplos de acciones en el admin y en el loop de WordPress
             add_action('admin_menu', array($this,'config_menu_page'));
             add_action('the_loop',  array($this,'say_hello'));
@@ -35,8 +46,27 @@
 
         }
 
+        //Función de instalación del plugin
 
-        //Algunas funciones
+        function install() {
+            global $wpdb;
+
+
+            $wpdb->query('CREATE TABLE ' . $this->table_name . '(
+                `quote` varchar(255) NOT NULL default ""
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8');
+
+
+        }
+
+        //Función de desinstalación del plugin
+        function unistall() {
+            global $wpdb;
+            $wpdb->query('DROP TABLE ' . $this->table_name . '');
+        }
+
+
+        //Algunas funciones de filtrado
         function set_default_title() {
             $title = "Titulo por defecto";
             return $title;
